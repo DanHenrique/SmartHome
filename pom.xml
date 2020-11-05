@@ -16,9 +16,26 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<jackson.version>2.11.3</jackson.version>
+		<jade.version>4.5</jade.version>
 	</properties>
 
 	<dependencies>
+		<!-- Jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+		<!-- JADE -->
+		<dependency>
+			<groupId>br.com.pucsp.smarthome</groupId>
+			<artifactId>jade</artifactId>
+			<version>${jade.version}</version>
+		</dependency>
+
+		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -28,12 +45,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 
