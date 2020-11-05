@@ -18,22 +18,19 @@ public class Morador extends Agent {
     @Override
     protected void setup() {
         this.AIDName = this.getAID().getName();
-        System.out.println("Setting up "+ this.AIDName +"...");
 
         addBehaviour(new OneShotBehaviour() {
             @Override
             public void action() {
-                try {
-                    ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-                    msg.setContentObject(new Instrucao("light.bathroomlight", "homeassistant", "turn_on"));
 
-                    AID receiver = new AID("Comandante", AID.ISLOCALNAME);
+                ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+                Instrucao instrucao = new Instrucao("light.bathroomlight", "homeassistant", "turn_on");
+                msg.setContent(instrucao.toJSON());
 
-                    msg.addReceiver(receiver);
-                    send(msg);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                AID receiver = new AID("Comandante", AID.ISLOCALNAME);
+
+                msg.addReceiver(receiver);
+                send(msg);
             }
         });
 

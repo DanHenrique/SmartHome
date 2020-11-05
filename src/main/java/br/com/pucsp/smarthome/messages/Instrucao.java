@@ -1,8 +1,15 @@
 package br.com.pucsp.smarthome.messages;
 
+import br.com.pucsp.smarthome.services.HomeAssistantService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jade.util.leap.Serializable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Instrucao implements Serializable {
+
+    private final static Logger log = LoggerFactory.getLogger(Instrucao.class);
 
     // Atributos
     public String entity_id;
@@ -40,8 +47,20 @@ public class Instrucao implements Serializable {
         this.service = service;
     }
 
+    public String toJSON() {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = null;
+        try {
+            json = mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            log.error(e.getStackTrace().toString());
+        }
+        return json;
+    }
+    /*
     public String toJSON(){
         String json = String.format("{\n\t\"entity_id\": \"%s\",\n\t\"domain\": \"%s\",\n\t\"service\": \"%s\"\n}", this.getEntity(), this.getDomain(), this.getService());
         return json;
     }
+     */
 }

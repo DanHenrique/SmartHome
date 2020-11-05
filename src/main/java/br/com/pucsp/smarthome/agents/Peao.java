@@ -12,7 +12,6 @@ public class Peao extends Agent {
 
     @Override
     protected void setup() {
-        System.out.println("Setting up "+ this.getAID().getName()+"...");
 
         addBehaviour(new CyclicBehaviour() {
             @Override

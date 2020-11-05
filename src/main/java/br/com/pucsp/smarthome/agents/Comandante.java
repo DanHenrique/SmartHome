@@ -6,15 +6,18 @@ import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Comandante extends Agent {
+
+    private final static Logger log = LoggerFactory.getLogger(Instrucao.class);
 
     public String AIDName;
 
     @Override
     protected void setup() {
         this.AIDName = this.getAID().getName();
-        System.out.println("Setting up "+ this.AIDName +"...");
 
         addBehaviour(new CyclicBehaviour() {
             @Override
@@ -25,7 +28,7 @@ public class Comandante extends Agent {
                         //Instrucao instrucao = (Instrucao) msg.getContentObject();
                         String instrucao = msg.getContent();
                         //System.out.println("["+AIDName+"] - Instrucao recebida: " + instrucao.toJSON() + " do " + msg.getSender().getName());
-                        System.out.println("["+AIDName+"] - Instrucao recebida: " + instrucao + " do " + msg.getSender().getName());
+                        log.info("[{}] - Instrucao recebida: {} do {}", AIDName, instrucao, msg.getSender().getName());
                         enviarInstrucaoParaPeao(instrucao);
                     } else {
                         block();

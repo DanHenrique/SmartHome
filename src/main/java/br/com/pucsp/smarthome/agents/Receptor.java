@@ -1,10 +1,12 @@
 package br.com.pucsp.smarthome.agents;
 
 import br.com.pucsp.smarthome.messages.StatusEquipamento;
+import br.com.pucsp.smarthome.services.HomeAssistantService;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
@@ -21,10 +23,13 @@ public class Receptor extends Agent {
 
     public String AIDName;
 
+    HomeAssistantService homeAssistantService = new HomeAssistantService();
+
     @Override
     protected void setup() {
         this.AIDName = this.getAID().getName();
-        System.out.println("Setting up "+ this.AIDName +"...");
+
+        homeAssistantService.log();
 
         addBehaviour(new CyclicBehaviour() {
             @Override
