@@ -1,5 +1,7 @@
 package br.com.pucsp.smarthome.messages;
 
+import br.com.pucsp.smarthome.enums.Severity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jade.util.leap.Serializable;
@@ -11,26 +13,45 @@ public class StatusEquipamento implements Serializable {
     private final static Logger log = LoggerFactory.getLogger(StatusEquipamento.class);
 
     // Atributos
-    public String entity_id;
+    @JsonProperty
+    public String severity;
+    @JsonProperty("entity_id")
+    public String entityID;
+    @JsonProperty
     public int brightness;
+    @JsonProperty
     public int temperature;
 
     // Métodos
-    public StatusEquipamento(){
+    public StatusEquipamento() {
+        this.calculateSeverity();
     }
-    
-    public StatusEquipamento(String entity, int temperature, int brightness){
-        this.setEntity(entity);
+
+    public StatusEquipamento(String entity, int temperature, int brightness) {
+        this.setEntityID(entity);
         this.setBrightness(brightness);
         this.setTemperature(temperature);
+        this.calculateSeverity();
     }
 
-    public String getEntity() {
-        return this.entity_id;
+    public String getSeverity() {
+        return this.severity;
     }
 
-    public void setEntity(String entity) {
-        this.entity_id = entity;
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public void setSeverity(Severity severity) {
+        this.severity = severity.getText();
+    }
+
+    public String getEntityID() {
+        return this.entityID;
+    }
+
+    public void setEntityID(String entity) {
+        this.entityID = entity;
     }
 
     public int getBrightness() {
@@ -47,6 +68,21 @@ public class StatusEquipamento implements Serializable {
 
     public void setTemperature(int service) {
         this.temperature = service;
+    }
+
+    public void calculateSeverity() {
+        if (this.brightness == 0 || this.temperature == 0)
+            this.setSeverity(Severity.VERY_HIGH);
+        else if (this.brightness < 20 || this.temperature > 100)
+            this.setSeverity(Severity.VERY_HIGH);
+        else if (this.brightness < 50 || this.temperature > 80)
+            this.setSeverity(Severity.HIGH);
+        else if (this.brightness < 65 || this.temperature > 50)
+            this.setSeverity(Severity.MEDIUM);
+        else if (this.brightness < 85 || this.temperature > 40)
+            this.setSeverity(Severity.LOW);
+        else
+            this.setSeverity(Severity.NONE);
     }
 
     public String toJSON() {
