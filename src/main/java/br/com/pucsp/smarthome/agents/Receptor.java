@@ -22,7 +22,7 @@ public class Receptor extends Agent implements ReceptorInterface {
             @Override
             public void action() {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
