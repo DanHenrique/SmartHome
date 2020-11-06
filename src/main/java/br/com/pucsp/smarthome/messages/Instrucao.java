@@ -1,6 +1,6 @@
 package br.com.pucsp.smarthome.messages;
 
-import br.com.pucsp.smarthome.services.HomeAssistantService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jade.util.leap.Serializable;
@@ -12,23 +12,29 @@ public class Instrucao implements Serializable {
     private final static Logger log = LoggerFactory.getLogger(Instrucao.class);
 
     // Atributos
-    public String entity_id;
+    @JsonProperty("entity_id")
+    public String entityID;
+    @JsonProperty("domain")
     public String domain;
+    @JsonProperty("service")
     public String service;
 
     // Métodos
+    public Instrucao(){
+    }
+
     public Instrucao(String entity, String domain, String service){
-        this.setEntity(entity);
+        this.setEntityID(entity);
         this.setDomain(domain);
         this.setService(service);
     }
 
-    public String getEntity() {
-        return this.entity_id;
+    public String getEntityID() {
+        return this.entityID;
     }
 
-    public void setEntity(String entity) {
-        this.entity_id = entity;
+    public void setEntityID(String entity) {
+        this.entityID = entity;
     }
 
     public String getDomain() {

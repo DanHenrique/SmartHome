@@ -1,31 +1,31 @@
 package br.com.pucsp.smarthome.agents;
 
+import br.com.pucsp.smarthome.interfaces.ComandanteInterface;
+import br.com.pucsp.smarthome.interfaces.MoradorInterface;
 import br.com.pucsp.smarthome.messages.Instrucao;
 import br.com.pucsp.smarthome.messages.StatusEquipamento;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.UnreadableException;
+import jade.util.Logger;
 
-import java.io.IOException;
-
-public class Morador extends Agent {
-
-    public String AIDName;
+public class Morador extends Agent implements MoradorInterface {
 
     @Override
     protected void setup() {
-        this.AIDName = this.getAID().getName();
-
+        registerO2AInterface(MoradorInterface.class, this);
         addBehaviour(new OneShotBehaviour() {
             @Override
             public void action() {
 
                 ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
                 Instrucao instrucao = new Instrucao("light.bathroomlight", "homeassistant", "turn_on");
-                msg.setContent(instrucao.toJSON());
+                String json = instrucao.toJSON();
+                msg.setContent(json);
 
                 AID receiver = new AID("Comandante", AID.ISLOCALNAME);
 
@@ -40,12 +40,13 @@ public class Morador extends Agent {
                 ACLMessage msg = receive();
                 try {
                     if (msg != null) {
-                        StatusEquipamento status = (StatusEquipamento) msg.getContentObject();
-                        System.out.println("["+this.getAgent().getAID().getName()+"] - Dados dos sensores recebido: " + status.toJSON() + " do " + msg.getSender().getName());
+                        String json = msg.getContent();
+                        log.info("[{}] - Dados dos sensores recebido: {} do {}", this.getAgent().getAID().getName(), json, msg.getSender().getName());
+                        StatusEquipamento status = objectMapper.readValue(json, StatusEquipamento.class);
                     } else {
                         block();
                     }
-                } catch (UnreadableException e) {
+                } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
             }

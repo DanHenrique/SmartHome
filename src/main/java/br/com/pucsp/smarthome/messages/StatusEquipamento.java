@@ -1,8 +1,14 @@
 package br.com.pucsp.smarthome.messages;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jade.util.leap.Serializable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StatusEquipamento implements Serializable {
+
+    private final static Logger log = LoggerFactory.getLogger(StatusEquipamento.class);
 
     // Atributos
     public String entity_id;
@@ -10,6 +16,9 @@ public class StatusEquipamento implements Serializable {
     public int temperature;
 
     // Métodos
+    public StatusEquipamento(){
+    }
+    
     public StatusEquipamento(String entity, int temperature, int brightness){
         this.setEntity(entity);
         this.setBrightness(brightness);
@@ -40,8 +49,14 @@ public class StatusEquipamento implements Serializable {
         this.temperature = service;
     }
 
-    public String toJSON(){
-        String json = String.format("{\n\t\"entity_id\": \"%s\",\n\t\"brightness\": \"%d\",\n\t\"temperature\": \"%d\"\n}", this.getEntity(), this.getBrightness(), this.getTemperature());
+    public String toJSON() {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = null;
+        try {
+            json = mapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            log.error(e.getStackTrace().toString());
+        }
         return json;
     }
 }

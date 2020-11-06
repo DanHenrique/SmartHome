@@ -31,8 +31,6 @@ public class HomeAssistantService {
 
         HttpEntity<ServiceData> request = new HttpEntity<>(serviceData);
         StateList response = restTemplate.postForObject(endpoint, request, StateList.class);
-        int teste = 0;
-        teste++;
         return response;
         /*
         String endpoint = apiUrl + "";
