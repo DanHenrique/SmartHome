@@ -38,11 +38,11 @@ public class JADEService {
 
         try {
             // Morador
-            ///*
+            /*
             ac = cc.createNewAgent("Morador", "br.com.pucsp.smarthome.agents.Morador", null);
             log.info("Iniciando Agente Morador...");
             ac.start();
-            //*/
+            */
             // Comandante
             ac = cc.createNewAgent("Comandante", "br.com.pucsp.smarthome.agents.Comandante", null);
             log.info("Iniciando Agente Comandante...");
