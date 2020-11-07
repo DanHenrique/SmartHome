@@ -9,7 +9,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Service
 public class HomeAssistantService {
 
     public HomeAssistantService(){
@@ -17,14 +16,9 @@ public class HomeAssistantService {
 
     private final static Logger log = LoggerFactory.getLogger(HomeAssistantService.class);
 
-    @Value("${home-assistant.api.url}")
-    public String apiUrl;
+    public String apiUrl = "http://raspberrypi:8123/api";
 
     public RestTemplate restTemplate = new RestTemplate();
-
-    public void log(){
-        log.info("Chamou");
-    }
 
     public StateList callService(String domain, String service, ServiceData serviceData){
         String endpoint = String.format("%s/services/%s/%s", apiUrl, domain, service);

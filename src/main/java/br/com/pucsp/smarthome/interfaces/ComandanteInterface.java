@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public interface ComandanteInterface {
-
     Logger log = LoggerFactory.getLogger(ComandanteInterface.class);
 
     ObjectMapper objectMapper = new ObjectMapper();

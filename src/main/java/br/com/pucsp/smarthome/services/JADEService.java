@@ -23,9 +23,6 @@ public class JADEService {
     @Value("${jade.gui}")
     public String gui;
 
-    @Autowired
-    HomeAssistantService homeAssistantService;
-
     private final static Logger log = LoggerFactory.getLogger(JADEService.class);
 
     @EventListener(ApplicationReadyEvent.class)
