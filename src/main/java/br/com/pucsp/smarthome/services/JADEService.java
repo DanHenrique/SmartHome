@@ -8,7 +8,6 @@ import jade.wrapper.ContainerController;
 import jade.wrapper.StaleProxyException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -48,7 +47,7 @@ public class JADEService {
             log.info("Iniciando Agente Comandante...");
             ac.start();
             // Peao
-            ac = cc.createNewAgent("Peao.light.bathroomlight", "br.com.pucsp.smarthome.agents.Peao", null);
+            ac = cc.createNewAgent("Peao.light.lampada", "br.com.pucsp.smarthome.agents.Peao", null);
             log.info("Iniciando Agente Peao...");
             ac.start();
             // Receptor

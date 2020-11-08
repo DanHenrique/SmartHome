@@ -1,29 +1,39 @@
 package br.com.pucsp.smarthome.agents;
 
-import br.com.pucsp.smarthome.interfaces.ComandanteInterface;
 import br.com.pucsp.smarthome.interfaces.MoradorInterface;
 import br.com.pucsp.smarthome.messages.Instrucao;
 import br.com.pucsp.smarthome.messages.StatusEquipamento;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
-import jade.util.Logger;
 
 public class Morador extends Agent implements MoradorInterface {
+
+    public String service = "";
 
     @Override
     protected void setup() {
         registerO2AInterface(MoradorInterface.class, this);
-        addBehaviour(new OneShotBehaviour() {
+        addBehaviour(new CyclicBehaviour() {
             @Override
             public void action() {
-
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-                Instrucao instrucao = new Instrucao("light.bathroomlight", "homeassistant", "turn_on");
+
+
+                if(service.equals("turn_off"))
+                    service = "turn_on";
+                else
+                    service = "turn_off";
+
+                Instrucao instrucao = new Instrucao("light.lampada", "homeassistant", service);
                 String json = instrucao.toJSON();
                 msg.setContent(json);
 
