@@ -28,7 +28,7 @@ public class Peao extends Agent implements PeaoInterface {
                         
                         ServiceData sd = new ServiceData(instrucao.getEntityID());
                         List<State> sl = homeAssistantService.callService(instrucao.getDomain(), instrucao.getService(), sd);
-                        log.info("[{}] - Resposta recebida");
+                        log.info("[{}] - Controle do equipamento realizado.", this.myAgent.getAID().getName());
                         
                     } else {
                         block();

@@ -46,9 +46,12 @@ public class JADEService {
             ac = cc.createNewAgent("Comandante", "br.com.pucsp.smarthome.agents.Comandante", null);
             log.info("Iniciando Agente Comandante...");
             ac.start();
-            // Peao
+            // Peões
             ac = cc.createNewAgent("Peao.light.lampada", "br.com.pucsp.smarthome.agents.Peao", null);
-            log.info("Iniciando Agente Peao...");
+            log.info("Iniciando Agente Peao.light.lampada...");
+            ac.start();
+            ac = cc.createNewAgent("Peao.switch.tomada", "br.com.pucsp.smarthome.agents.Peao", null);
+            log.info("Iniciando Agente Peao.switch.tomada...");
             ac.start();
             // Receptor
             ac = cc.createNewAgent("Receptor", "br.com.pucsp.smarthome.agents.Receptor", null);
