@@ -15,14 +15,22 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Receptor extends Agent implements ReceptorInterface {
 
+    final AID receiver = new AID("Morador", AID.ISLOCALNAME);
+
     @Override
     protected void setup() {
         registerO2AInterface(ReceptorInterface.class, this);
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         addBehaviour(new CyclicBehaviour() {
             @Override
             public void action() {
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -33,10 +41,20 @@ public class Receptor extends Agent implements ReceptorInterface {
                 int randomBrightness = generateBrightness();
 
                 ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-                StatusEquipamento status = new StatusEquipamento("light.bathroomlight", randomTemperature, randomBrightness);
+                StatusEquipamento status = new StatusEquipamento("light.lampada", randomTemperature, randomBrightness);
                 msg.setContent(status.toJSON());
 
-                AID receiver = new AID("Morador", AID.ISLOCALNAME);
+                msg.addReceiver(receiver);
+                send(msg);
+
+                // Gerando dados do sensor de temperatura
+                randomTemperature = generateTemperature();
+                // Gerando dados do sensor de luz
+                randomBrightness = generateBrightness();
+
+                msg = new ACLMessage(ACLMessage.INFORM);
+                status = new StatusEquipamento("switch.tomada", randomTemperature, randomBrightness);
+                msg.setContent(status.toJSON());
 
                 msg.addReceiver(receiver);
                 send(msg);
