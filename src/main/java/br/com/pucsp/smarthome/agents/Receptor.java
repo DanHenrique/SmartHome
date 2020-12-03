@@ -15,8 +15,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Receptor extends Agent implements ReceptorInterface {
 
-    final AID receiver = new AID("Morador", AID.ISLOCALNAME);
-
     @Override
     protected void setup() {
         registerO2AInterface(ReceptorInterface.class, this);
@@ -34,6 +32,8 @@ public class Receptor extends Agent implements ReceptorInterface {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                AID receiver = new AID("Morador", AID.ISLOCALNAME);
 
                 // Gerando dados do sensor de temperatura
                 int randomTemperature = generateTemperature();
@@ -54,6 +54,18 @@ public class Receptor extends Agent implements ReceptorInterface {
 
                 msg = new ACLMessage(ACLMessage.INFORM);
                 status = new StatusEquipamento("switch.tomada", randomTemperature, randomBrightness);
+                msg.setContent(status.toJSON());
+
+                msg.addReceiver(receiver);
+                send(msg);
+
+                // Gerando dados do sensor de temperatura
+                randomTemperature = generateTemperature();
+                // Gerando dados do sensor de luz
+                randomBrightness = generateBrightness();
+
+                msg = new ACLMessage(ACLMessage.INFORM);
+                status = new StatusEquipamento("ar.condicionado", randomTemperature, randomBrightness);
                 msg.setContent(status.toJSON());
 
                 msg.addReceiver(receiver);
