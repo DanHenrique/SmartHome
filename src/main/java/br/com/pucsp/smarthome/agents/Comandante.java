@@ -22,8 +22,9 @@ public class Comandante extends Agent implements ComandanteInterface {
                         String json = msg.getContent();
                         Instrucao instrucao = objectMapper.readValue(json, Instrucao.class);
                         //System.out.println("["+AIDName+"] - Instrucao recebida: " + instrucao.toJSON() + " do " + msg.getSender().getName());
-                        log.info("[{}] - Instrucao recebida: {} do {}", this.myAgent.getAID().getName(), json, msg.getSender().getName());
-                        enviarInstrucaoParaPeao(instrucao);
+                        log.info("[{}] - Instrucao recebida: {} do {}", this.myAgent.getAID().getName(), json.replace("\n", "").replace("\t", ""), msg.getSender().getName());
+                        if(!instrucao.getEntityID().equals("ar.condicionado"))
+                            enviarInstrucaoParaPeao(instrucao);
                     } else {
                         block();
                     }

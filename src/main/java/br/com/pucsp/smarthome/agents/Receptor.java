@@ -70,6 +70,8 @@ public class Receptor extends Agent implements ReceptorInterface {
 
                 msg.addReceiver(receiver);
                 send(msg);
+
+                log.info("[{}] - Enviando dados dos sensores para: {} ", this.myAgent.getAID().getName(), receiver.getName());
             }
         });
     }

@@ -63,10 +63,5 @@ public class Instrucao implements Serializable {
         }
         return json;
     }
-    /*
-    public String toJSON(){
-        String json = String.format("{\n\t\"entity_id\": \"%s\",\n\t\"domain\": \"%s\",\n\t\"service\": \"%s\"\n}", this.getEntity(), this.getDomain(), this.getService());
-        return json;
-    }
-     */
+
 }
